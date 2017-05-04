@@ -35,3 +35,32 @@ while (1) {
     }
     $page++;
 }
+
+// find picture URL
+$images = [];
+foreach ($urlList as $imageUrl) {
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $imageUrl);
+    curl_setopt($ch, CURLOPT_VERBOSE, 1);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+
+    $result = curl_exec($ch);
+
+    if (!curl_errno($ch)) {
+        $info = curl_getinfo($ch);
+        if ($info['http_code'] != 200) {
+            break;
+        }
+    }
+    curl_close($ch);
+
+    $dom = new DOMDocument();
+    $dom->loadHTML($result);
+
+    $xpath = new DomXPath($dom);
+    $class = 'entry-content';
+    $xpathImage = $xpath->query("//*[contains(concat(' ', normalize-space(@class), ' '), ' $class ')]/p/img/@src");
+
+    $images[] = $xpathImage->item(0)->nodeValue;
+}
