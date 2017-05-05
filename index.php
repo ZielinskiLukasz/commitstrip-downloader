@@ -64,3 +64,9 @@ foreach ($urlList as $imageUrl) {
 
     $images[] = $xpathImage->item(0)->nodeValue;
 }
+
+// download all the pictures
+foreach ($images as $image) {
+    $filename = pathinfo($image);
+    file_put_contents(__DIR__ . '/images/' . $filename['filename'] . '.' . $filename['extension'], fopen($image, 'r'));
+}
