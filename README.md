@@ -26,6 +26,5 @@ Execute the following command:
 ```
 php index.php
 ```
-
-Or browse to `<WWW_PATH>/<REPO_DIR>/index.php`
+or browse to `<WWW_PATH>/<REPO_DIR>/index.php`
 
